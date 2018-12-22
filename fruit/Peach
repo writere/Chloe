@@ -1,0 +1,54 @@
+package fruit;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class Peach  {
+	
+	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+    static final String DB_URL = "jdbc:mysql://localhost:3306/RUNOOB";
+    static final String USER = "root";
+    static final String PASS = "123456";
+	
+	public static void  main(String[] arg) {    
+		
+		
+		Connection connection = null;
+		java.sql.Statement statement = null;
+		try{
+            Class.forName(JDBC_DRIVER);    
+            connection = DriverManager.getConnection(DB_URL,USER,PASS);
+            statement = connection.createStatement();
+            String sql;
+            sql = "INSERT INTO TABLE video(VideoID, Url) VALUES('','')";
+            ResultSet resultSet = statement.executeQuery(sql);
+            while(resultSet.next()){
+                int id  = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String url = resultSet.getString("url");
+            }
+            resultSet.close();
+            statement.close();
+            connection.close();            
+        }catch(SQLException se) {
+            se.printStackTrace();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally {
+            try{
+                if(statement!=null) {
+                		statement.close();
+                }
+            }catch(SQLException se){
+            		se.printStackTrace();
+            }           
+            try{
+                if(connection!=null) connection.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+	}
+}
